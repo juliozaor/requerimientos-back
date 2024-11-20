@@ -4,12 +4,17 @@ import { RequerimientoRepositorio } from '../../Infraestructura/Requerimientos/r
 import { RequerimientosService } from '../../Dominio/Requerimientos/requerimientoService';
 import CustomException from '../../Exceptions/CustomException';
 import listarValidator from './listarValidator';
+import { EmpresaService } from 'App/Dominio/Empresa/empresaService';
+import { EmpresaRepositorio } from 'App/Infraestructura/Empresa/empresaRepositorio';
 
 export default class RequerimientosController {
 
     private service: RequerimientosService
+    private empresaService:EmpresaService
+
     constructor () {
       this.service = new RequerimientosService(new RequerimientoRepositorio())
+      this.empresaService = new EmpresaService(new EmpresaRepositorio())
     }
 
     public async guardar({response, request}:HttpContextContract) {
@@ -18,9 +23,9 @@ export default class RequerimientosController {
             await request.validate(guradarValidator)
 
             const obj_request:any = request.all();
-
-            const user = {
-                uuid: 'f55f3210-effc-4d8b-bb94-9ff5eab8383b',
+            
+            const user =  {
+                uuid: '8c6107a8-80ce-4e4e-b12f-2d2038432c61',
                 usn_nombre: 'Nombreusuario',
                 usn_apellido: 'Apellidousuario'
             };
@@ -188,6 +193,40 @@ export default class RequerimientosController {
 
             return response.status(200).send(obj_requerimiento);
         } catch (error) {
+            if (error instanceof CustomException) {
+                return response.status(error.status).send({
+                    msn: error.message.name, // Mensaje personalizado
+                    errors: error.message.errors // Detalles de la excepción personalizada
+                });
+            }
+
+            return response.status(500).send({
+                msn: 'Error interno', // Mensaje personalizado
+                errors: ['Ha ocurrido un error interno, por favor intente mas tarde'] 
+            });
+        }
+    }
+
+    public async listarEmpresas({response, request}:HttpContextContract) {
+        try {
+            await request.validate(listarValidator)
+
+            const obj_request:any = request.all();
+
+            const array_empresas = await this.empresaService.listar(obj_request);
+
+            return response.status(200).send(array_empresas);
+
+        } catch (error) {
+
+            if (error.messages && error.messages.errors) {
+                const messages = error.messages.errors.map((msg: { message: string }) => msg.message);
+                return response.status(400).send({
+                    msn: 'Campos invalidos', // Mensaje personalizado
+                    errors: messages
+                });
+            }
+
             if (error instanceof CustomException) {
                 return response.status(error.status).send({
                     msn: error.message.name, // Mensaje personalizado

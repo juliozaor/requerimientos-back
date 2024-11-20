@@ -42,7 +42,7 @@ export class RequerimientoRepositorio implements RequerimientoInterface
             throw new CustomException(500,
                 'tipo_identificacionData.js',
                 'Error desconocido',
-                [error.message, 'Ha ocurrido un error interno, por favor intente mas tarde...']
+                [error, 'Ha ocurrido un error interno, por favor intente mas tarde...']
             );
         }
     }
