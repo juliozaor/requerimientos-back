@@ -1,0 +1,22 @@
+api/v1/requerimiento/actualizarrequerimiento:
+  post:
+    tags:
+      - Requerimiento
+    security:
+      - bearerAuth: []
+    description: Crear una nuevo requerimiento
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RequerimientoInput"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Requerimiento creado exitosamente
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequerimientoAll"

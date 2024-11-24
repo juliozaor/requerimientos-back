@@ -1,0 +1,19 @@
+api/v1/requerimiento/elimnarrequerimiento/{id}:
+  delete:
+    tags:
+      - Requerimiento
+    security:
+      - bearerAuth: []
+    description: Eliminar una Requerimiento por su ID
+    parameters:
+      - name: id
+        in: path
+        description: ID de la Requerimiento a eliminar
+        required: true
+        schema:
+          type: integer
+    responses:
+      204:
+        description: Requerimiento eliminada exitosamente
+      404:
+        description: No se encontró la Requerimiento con el ID especificado

@@ -1,0 +1,99 @@
+api/v1/requerimiento/listarrequerimientousuario:
+  get:
+    tags:
+      - Requerimiento
+    security:
+      - bearerAuth: []
+    description: Obtener el listado de requerimientos por usuario de creación
+    parameters:
+      - name: page
+        in: query
+        type: integer
+        description: Número de página para la paginación
+      - name: numero_items
+        in: query
+        type: integer
+        description: Número de elementos por página
+      - name: estado
+        in: query
+        type: string
+        description: Filtro por estado (ACTIVO, ELIMINADO)
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requerimientos:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID del requerimiento
+                      nombre:
+                        type: string
+                        description: Nombre del requerimiento
+                      fechacreacion:
+                        type: string
+                        format: date
+                        description: Fecha de creación del requerimiento
+                      fechainicio:
+                        type: string
+                        format: date
+                        description: Fecha de inicio del requerimiento
+                      fechafinal:
+                        type: string
+                        format: date
+                        description: Fecha de finalización del requerimiento
+                      descripcion:
+                        type: string
+                        description: Descripción del requerimiento
+                      modulo:
+                        type: string
+                        description: Módulo a través del cual se realiza el requerimiento
+                      anexo:
+                        type: string
+                        nullable: true
+                        description: Anexo asociado al requerimiento
+                      estado:
+                        type: string
+                        description: Estado del requerimiento (ACTIVO, ELIMINADO)
+                      fechaeliminado:
+                        type: string
+                        format: date-time
+                        nullable: true
+                        description: Fecha en la que se eliminó el requerimiento
+                      estadorespuesta:
+                        type: string
+                        description: Estado de la respuesta (INICIO, EN PROCESO, FINALIZADO)
+                      publicado:
+                        type: boolean
+                        description: Indica si el requerimiento ha sido publicado o no
+                      usuariocreacion_uuid:
+                        type: string
+                        description: UUID del usuario que creó el requerimiento
+                      usuariocreacion_nombre:
+                        type: string
+                        description: Nombre del usuario que creó el requerimiento
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de creación del requerimiento
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de la última actualización del requerimiento
+                paginacion:
+                  $ref: "#/components/schemas/paginacion"
+      409:
+        description: Parámetros inválidos o falta de datos
+      401:
+        description: No autorizado
+      500:
+        description: Error interno del servidor

@@ -1,0 +1,53 @@
+components:
+  schemas:
+    RequerimientoUpdate:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: Id del requerimiento
+        nombre:
+          type: string
+          description: Nombre del requerimiento
+        fechacreacion:
+          type: string
+          format: date
+          description: Fecha de creación del requerimiento
+        fechainicio:
+          type: string
+          format: date
+          description: Fecha de inicio del requerimiento
+        fechafinal:
+          type: string
+          format: date
+          description: Fecha de finalización del requerimiento
+        descripcion:
+          type: string
+          description: Descripción del requerimiento
+        modulo:
+          type: string
+          description: Módulo a través del cual se realiza el requerimiento
+        anexo:
+          type: string
+          nullable: true
+          description: Archivo adjunto relacionado con el requerimiento
+        estado:
+          type: string
+          nullable: true
+          default: ACTIVO
+          description: Estado de ejecución del requerimiento (ACTIVO, ELIMINADO)
+        estadorespuesta:
+          type: string
+          description: Estado de ejecución del requerimiento (INICIO, EN PROCESO, FINALIZADO)
+        publicado:
+          type: boolean
+          description: Indica si el requerimiento está publicado
+        usuariocreacion_uuid:
+          type: string
+          format: uuid
+          description: Identificador único del usuario que creó el requerimiento
+        usuariocreacion_nombre:
+          type: string
+          description: Nombre del usuario que creó el requerimiento

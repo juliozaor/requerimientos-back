@@ -12,7 +12,7 @@ export default {
 		definition: {
 			openapi: '3.0.0',
 			info: {
-				title: 'Documentación APIs SISI-POLIZAS',
+				title: 'Documentación APIs SISI-REQUERIMIENTOS',
 				version: '1.0.0',
 				description: 'Documentación de las APIs del aplicativo SISI-POLIZAS'
 			},

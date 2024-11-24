@@ -1,0 +1,90 @@
+api/v1/requerimiento/listarempresas:
+  get:
+    tags:
+      - Requerimiento
+    security:
+      - bearerAuth: []
+    description: Obtener el listado de empresas
+    parameters:
+      - name: page
+        in: query
+        type: integer
+        description: Número de página para la paginación
+      - name: numero_items
+        in: query
+        type: integer
+        description: Número de elementos por página
+      - name: estado
+        in: query
+        type: string
+        description: Filtro por estado (ACTIVO, ELIMINADO)
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Petición exitosa
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                empresas:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID de la relación entre requerimiento y empresa
+                      requerimiento_id:
+                        type: integer
+                        description: ID del requerimiento relacionado con la empresa
+                      nit:
+                        type: string
+                        description: NIT de la empresa a la que se le realiza el requerimiento
+                      razonsocial:
+                        type: string
+                        description: Nombre de la empresa a la que se le realiza el requerimiento
+                      correoelectronico:
+                        type: string
+                        description: Correo electrónico de la empresa
+                      delegada:
+                        type: string
+                        description: Delegada de la empresa
+                      estado:
+                        type: string
+                        description: Estado de la empresa (ACTIVO, ELIMINADO)
+                      estadoentrega:
+                        type: string
+                        description: Estado de entrega de la empresa (PENDIENTE, ENTREGADO, etc.)
+                      modalidad:
+                        type: string
+                        description: Modalidad de la delegada de la empresa
+                      departamento:
+                        type: string
+                        description: Departamento donde se ubica la empresa
+                      municipio:
+                        type: string
+                        description: Municipio donde se ubica la empresa
+                      usuariocreacion_uuid:
+                        type: string
+                        description: UUID del usuario que creó la relación
+                      usuariocreacion_nombre:
+                        type: string
+                        description: Nombre del usuario que creó la relación
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de creación de la relación
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de la última actualización de la relación
+                paginacion:
+                  $ref: "#/components/schemas/paginacion"
+      400:
+        description: Parámetros inválidos o falta de datos
+      401:
+        description: No autorizado
+      500:
+        description: Error interno del servidor

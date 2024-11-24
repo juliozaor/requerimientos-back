@@ -1,0 +1,22 @@
+api/v1/requerimiento/guardarrequerimiento:
+  post:
+    tags:
+      - Requerimiento
+    security:
+      - bearerAuth: []
+    description: Actualizar una requerimiento existente
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RequerimientoUpdate"
+    produces:
+      - application/json
+    responses:
+      200:
+        description: Requerimiento actualizada exitosamente
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RequerimientoAll"

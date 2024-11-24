@@ -43,7 +43,8 @@ export default class RequerimientosController {
                 const messages = error.messages.errors.map((msg: { message: string }) => msg.message);
                 return response.status(400).send({
                     msn: 'Campos invalidos', // Mensaje personalizado
-                    errors: messages
+                    errors: messages,
+                    error:error.messages.errors
                 });
             }
 
@@ -232,4 +233,5 @@ export default class RequerimientosController {
             });
         }
     }
+
 }

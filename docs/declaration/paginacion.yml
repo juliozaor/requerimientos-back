@@ -1,8 +1,44 @@
 components:
   schemas:
-      paginacion:
-        $ref: "#/definitions/paginacion"
-        example:
-            totalRegistros: 2
-            paginaActual: 1
-            totalPaginas: 2
+    paginacion:
+      type: object
+      properties:
+        totalRegistros:
+          type: integer
+          description: Total de registros disponibles
+        paginaActual:
+          type: integer
+          description: Página actual de la consulta
+        totalPaginas:
+          type: integer
+          description: Número total de páginas disponibles
+        primeraPagina:
+          type: integer
+          description: Número de la primera página
+        ultimaPagina:
+          type: integer
+          description: Número de la última página
+        urlPrimeraPagina:
+          type: string
+          description: URL de la primera página
+        urlUltimaPagina:
+          type: string
+          description: URL de la última página
+        urlSiguientePagina:
+          type: string
+          nullable: true
+          description: URL de la siguiente página (si existe)
+        urlPaginaAnterior:
+          type: string
+          nullable: true
+          description: URL de la página anterior (si existe)
+      example:
+        totalRegistros: 3
+        paginaActual: 1
+        totalPaginas: 1
+        primeraPagina: 1
+        ultimaPagina: 1
+        urlPrimeraPagina: "/?page=1"
+        urlUltimaPagina: "/?page=1"
+        urlSiguientePagina: null
+        urlPaginaAnterior: null

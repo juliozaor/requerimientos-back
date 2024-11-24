@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 import { EmpresaInterface } from '../Repositorios/empresaInterface';
+import Env from '@ioc:Adonis/Core/Env';
+import axios from 'axios';
 
 export class EmpresaService{
 
@@ -74,4 +76,34 @@ export class EmpresaService{
       {
         return this.repositorio.eliminarPorrequerimiento(requerimiento_id);
       }
+
+      public async consultarEmpresas(nit:string, razonsocial:string)
+      {
+        try
+        {
+            const apiResponse = await axios.get(Env.get('URL_EMPRESAS')+'/listarempresa', {
+                params: {
+                  nit: nit, // Parámetro del documento en la URL
+                  razonsocial: razonsocial, // Parámetro del documento en la URL
+                },
+                headers: {
+                  Authorization: 'Bearer 2c9b417a-75af-46c5-8ca0-340d3acdb3c7', // Token Bearer
+                  'Content-Type': 'application/json',
+                },
+              });
+    
+            return {
+                out: apiResponse.data,
+                status: 200,
+                msn: 'Consulta exitar empresas'
+            };
+        } 
+        catch (error)
+        {
+            return {
+                out: error,
+                msn: 'Error al consulta empresas'
+            };
+        }
+    } 
 }

@@ -10,4 +10,5 @@ Route.group(() => {
     Route.get('/obtenerrequerimiento/:requerimiento_id', `${controlador}.obtenerRecurso`)
     Route.delete('/elimnarrequerimiento/:requerimiento_id', `${controlador}.eliminarRecurso`)
     Route.put('/detallerequerimiento/:requerimiento_id', `${controlador}.verDetalle`)
+    
 }).prefix('api/v1/requerimiento').middleware('autenticacionJwt')

@@ -2,6 +2,8 @@ import Route from '@ioc:Adonis/Core/Route'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { extname } from 'path'
 import Drive from '@ioc:Adonis/Core/Drive'
+const accion_path = '../../Presentacion/Docs/SwaggerController'
+
 // Importar archivo de rutas para modalidad de polizas
 
 Route.get('/', async ({ response }: HttpContextContract) => {
@@ -25,3 +27,5 @@ Route.get('/recursos/*', async ({request, response}:HttpContextContract) => {
 Route.get('api/v1/validador-empresa', async ({ response }: HttpContextContract) => {
   response.status(200).send({acceso:true})
 })
+
+Route.get('/swagger', accion_path + '.index')
