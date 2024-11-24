@@ -25,6 +25,6 @@ export default class guardarValidator {
         'fechainicio.required': 'El campo fechainicio es obligatorio',
         'fechafinal.required': 'El campo fechafinal es obligatorio',
         'modulo.required': 'El campo modulo es obligatorio',
-        'publicado.required': 'El campo publicado es obligatorio',
+        'publicado.required': 'El campo publicado es obligatorio'
       }
 }

@@ -23,22 +23,18 @@ export default class RequerimientosController {
             await request.validate(guradarValidator)
 
             const obj_request:any = request.all();
-            
-            const user =  {
-                uuid: '8c6107a8-80ce-4e4e-b12f-2d2038432c61',
-                usn_nombre: 'Nombreusuario',
-                usn_apellido: 'Apellidousuario'
-            };
 
-            obj_request.usuariocreacion_uuid = user.uuid;
-            obj_request.usuariocreacion_nombre = user.usn_nombre+ ' ' +user.usn_apellido;
+            const payload = await request.obtenerPayloadJWT()
+
+            obj_request.usuariocreacion_uuid = payload.id;
 
             const obj_tipoidentifiacion = await this.service.guardar(obj_request);
 
             return response.status(200).send(
                 {
                     msn: 'Datos guardados exitosamente',
-                    obj: obj_tipoidentifiacion
+                    obj: obj_tipoidentifiacion,
+                    obj_user: payload
                 }
             );
         } catch (error) {
@@ -105,13 +101,9 @@ export default class RequerimientosController {
 
             const obj_request:any = request.all();
 
-            const user = {
-                uuid: 'f55f3210-effc-4d8b-bb94-9ff5eab8383b',
-                usn_nombre: 'Nombreusuario',
-                usn_apellido: 'Apellidousuario'
-            };
+            const payload = await request.obtenerPayloadJWT()
 
-            obj_request.uuid = user.uuid;
+            obj_request.uuid = payload.id;
 
             const array_requerimiento = await this.service.listarPorusuario(obj_request);
 

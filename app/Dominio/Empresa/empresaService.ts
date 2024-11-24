@@ -28,26 +28,27 @@ export class EmpresaService{
             "previous_page_url": null
         },
         "data":[
-                  {
-
-                      "nit":"nit 1",
-                      "razonsocial":"razonsocial 1",
-                      "modalidad":"modalidad 1",
-                      "delegada":"delegada 1",
-                      "departamento":"departamento 1",
-                      "municipo":"municipo 1",
-                      "estado":true,
-                      "estadoentrega": true
-                  },
-                  {
-                    "nit":"nit 2",
-                    "razonsocial":"razonsocial 2",
-                    "modalidad":"modalidad 2",
-                    "delegada":"delegada 2",
-                    "departamento":"departamento 2",
-                    "municipo":"municipo 2",
+                {
+                    "nit":"nit 1",
+                    "razonsocial":"razonsocial 1",
+                    "modalidad":"modalidad 1",
+                    "delegada":"delegada 1",
+                    "departamento":"departamento 1",
+                    "correoelectrinico": "jorgemdiazp@gmail.com",
+                    "municipo":"municipo 1",
                     "estado":true,
                     "estadoentrega": true
+                },
+                {
+                  "nit":"nit 2",
+                  "razonsocial":"razonsocial 2",
+                  "modalidad":"modalidad 2",
+                  "delegada":"delegada 2",
+                  "departamento":"departamento 2",
+                  "correoelectrinico": "jorgemdiazp@gmail.com",
+                  "municipo":"municipo 2",
+                  "estado":true,
+                  "estadoentrega": true
                 },
                 {
                   "nit":"nit 3",
@@ -55,11 +56,12 @@ export class EmpresaService{
                   "modalidad":"modalidad 3",
                   "delegada":"delegada 3",
                   "departamento":"departamento 3",
+                  "correoelectrinico": "jorgemdiazp@gmail.com",
                   "municipo":"municipo 3",
                   "estado":true,
                   "estadoentrega": true
               }
-              ];
+              ]
             }
       }
 

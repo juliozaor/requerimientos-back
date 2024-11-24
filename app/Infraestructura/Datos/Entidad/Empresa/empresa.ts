@@ -41,6 +41,9 @@ export default class Empresa extends BaseModel {
   @column()
   declare usuariocreacion_uuid: string
   
+  @column()
+  declare correoelectronico: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

@@ -10,6 +10,7 @@ export default class extends BaseSchema {
 
       table.string('nit', 255).notNullable().comment('Nit de la empresa a la que se le realiza el requerimiento');
       table.string('razonsocial', 255).notNullable().comment('Nombre de la empresa a la que se le realiza el requerimiento');
+      table.string('correoelectronico', 255).notNullable().comment('Correo electrónico de la empresa a la que se le realiza el requerimiento');
       table.string('delegada', 255).notNullable().comment('Delegada de la empresa a la que se le realiza el requerimiento');
       table.string('estado', 255).notNullable().comment('Estado de la empresa a la que se le realiza el requerimiento');
       table.string('estadoentrega', 255).notNullable().comment('Estado de entrega de la empresa a la que se le realiza el requerimiento');

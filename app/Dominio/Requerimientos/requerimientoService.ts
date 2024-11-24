@@ -2,17 +2,21 @@ import { DateTime } from 'luxon';
 import { RequerimientoInterface } from '../Repositorios/requerimientoInterface';
 import { EmpresaService } from '../Empresa/empresaService';
 import { EmpresaRepositorio } from 'App/Infraestructura/Empresa/empresaRepositorio';
+import { RepositorioUsuariosDB } from "App/Infraestructura/Implementacion/Lucid/RepositorioUsuariosDB";
 import CustomException from 'App/Exceptions/CustomException';
-
+import Env from '@ioc:Adonis/Core/Env';
+import Mail from '@ioc:Adonis/Addons/Mail'
 export class RequerimientosService{
 
     private empresaService: EmpresaService
+    private repositorioUsuarios:RepositorioUsuariosDB
 
     constructor (
       private repositorio: RequerimientoInterface,
     )
     {
       this.empresaService = new EmpresaService(new EmpresaRepositorio())
+      this.repositorioUsuarios = new RepositorioUsuariosDB();
     }
 
     async guardar(obj_requerimiento: any)
@@ -20,6 +24,10 @@ export class RequerimientosService{
       try
       {
         var obj = null;
+
+        var obj_usuario =  this.repositorioUsuarios.obtenerUsuarioPorId(obj_requerimiento.usuariocreacion_uuid);
+
+        obj_requerimiento.usuariocreacion_nombre = (await obj_usuario).nombre+' '+(await obj_usuario).apellido;
 
         obj_requerimiento.estadorespuesta = 'INICIO';
         obj_requerimiento.fechacreacion = new Date();
@@ -49,6 +57,7 @@ export class RequerimientosService{
             requerimiento_id: obj.id,
             nit:element.nit,
             razonsocial:element.razonsocial,
+            correoelectronico:element.correoelectronico,
             modalidad:element.modalidad,
             delegada:element.delegada,
             departamento:element.departamento,
@@ -61,6 +70,11 @@ export class RequerimientosService{
 
           await this.empresaService.guardar(obj_data);
 
+          await this.enviarCorreo(
+            'Asignación de requerimiento por parte superintendencia de transporte', 
+            obj_data.correoelectronico,
+            obj_data
+          );
         }
 
         return obj;
@@ -74,6 +88,16 @@ export class RequerimientosService{
       );
     }
 
+    }
+
+    public async enviarCorreo(asunto:string, destinatario:string, data:any){
+      Mail.send(mensaje => {
+        mensaje
+          .subject(asunto)
+          .from(Env.get('SMTP_USERNAME'), Env.get('EMAIL_ALIAS'))
+          .to(destinatario)
+          .htmlView("app/Dominio/Email/Templates/empresas.edge", data)
+      });
     }
 
     async listar(obj_filter: any)

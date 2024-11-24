@@ -20,6 +20,7 @@ export class EmpresaRepositorio implements EmpresaInterface
             query.usuariocreacion_uuid = obj_empresa.usuariocreacion_uuid;
             query.usuariocreacion_nombre = obj_empresa.usuariocreacion_nombre;
             query.estado = obj_empresa.estado;
+            query.correoelectronico = obj_empresa.correoelectronico;
             query.estadoentrega = obj_empresa.estadoentrega;
             query.createdAt = obj_empresa.createdat;
             query.updatedAt = obj_empresa.updatedat;
