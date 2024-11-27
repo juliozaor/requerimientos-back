@@ -28,7 +28,7 @@ api/v1/requerimiento/listarempresas:
             schema:
               type: object
               properties:
-                empresas:
+                data:
                   type: array
                   items:
                     type: object
@@ -65,7 +65,7 @@ api/v1/requerimiento/listarempresas:
                         type: string
                         format: date-time
                         description: Fecha y hora de la última actualización de la relación
-                paginacion:
+                meta:
                   $ref: "#/components/schemas/paginacion"
       400:
         description: Parámetros inválidos o falta de datos
