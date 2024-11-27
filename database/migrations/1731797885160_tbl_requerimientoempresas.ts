@@ -11,12 +11,7 @@ export default class extends BaseSchema {
       table.string('nit', 255).notNullable().comment('Nit de la empresa a la que se le realiza el requerimiento');
       table.string('razonsocial', 255).notNullable().comment('Nombre de la empresa a la que se le realiza el requerimiento');
       table.string('correoelectronico', 255).notNullable().comment('Correo electrónico de la empresa a la que se le realiza el requerimiento');
-      table.string('delegada', 255).notNullable().comment('Delegada de la empresa a la que se le realiza el requerimiento');
-      table.string('estado', 255).notNullable().comment('Estado de la empresa a la que se le realiza el requerimiento');
-      table.string('estadoentrega', 255).notNullable().comment('Estado de entrega de la empresa a la que se le realiza el requerimiento');
-      table.string('modalidad', 255).notNullable().comment('Modalidad de la delegada  de la empresa a la que se le realiza el requerimiento');
-      table.string('departamento', 255).notNullable().comment('Departamento de ubicación de la empresa a la que se le realiza el requerimiento');
-      table.string('municipo', 255).notNullable().comment('Municipio de ubicación de la empresa a la que se le realiza el requerimiento');
+      table.string('estado', 255).notNullable().defaultTo('Activa').comment('Estado de la empresa a la que se le realiza el requerimiento');
 
       table.uuid('usuariocreacion_uuid').notNullable().comment('Identificador del usuario que crear el requerimiento');
       table.string('usuariocreacion_nombre', 255).notNullable().comment('Nombre del usuario que crear el requerimiento');

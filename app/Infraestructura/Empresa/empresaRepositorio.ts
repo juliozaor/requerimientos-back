@@ -13,15 +13,10 @@ export class EmpresaRepositorio implements EmpresaInterface
             query.requerimiento_id = obj_empresa.requerimiento_id;
             query.nit = obj_empresa.nit;
             query.razonsocial = obj_empresa.razonsocial;
-            query.modalidad = obj_empresa.modalidad;
-            query.delegada = obj_empresa.delegada;
-            query.departamento = obj_empresa.departamento;
-            query.municipo = obj_empresa.municipo;
+            query.correoelectronico = obj_empresa.correoelectronico;
             query.usuariocreacion_uuid = obj_empresa.usuariocreacion_uuid;
             query.usuariocreacion_nombre = obj_empresa.usuariocreacion_nombre;
             query.estado = obj_empresa.estado;
-            query.correoelectronico = obj_empresa.correoelectronico;
-            query.estadoentrega = obj_empresa.estadoentrega;
             query.createdAt = obj_empresa.createdat;
             query.updatedAt = obj_empresa.updatedat;
 
@@ -56,14 +51,10 @@ export class EmpresaRepositorio implements EmpresaInterface
             query.requerimiento_id = obj_empresa.requerimiento_id;
             query.nit = obj_empresa.nit;
             query.razonsocial = obj_empresa.razonsocial;
-            query.modalidad = obj_empresa.modalidad;
-            query.delegada = obj_empresa.delegada;
-            query.departamento = obj_empresa.departamento;
-            query.municipo = obj_empresa.municipo;
+            query.correoelectronico = obj_empresa.correoelectronico;
             query.usuariocreacion_uuid = obj_empresa.usuariocreacion_uuid;
             query.usuariocreacion_nombre = obj_empresa.usuariocreacion_nombre;
             query.estado = obj_empresa.estado;
-            query.estadoentrega = obj_empresa.estadoentrega;
             query.updatedAt = obj_empresa.updatedat;
 
             await query.save();
@@ -165,6 +156,38 @@ export class EmpresaRepositorio implements EmpresaInterface
         { 
             throw new CustomException(500,
                 'empresaRepositorio.ts',
+                'Error desconocido listar',
+                ['Ha ocurrido un error interno, por favor intente mas tarde', error]
+            );
+        }
+    }
+
+    async obtenerRecurso(id:number, nit:string)
+    {
+        try {
+            // Buscar el recurso con preload de la relación "empresas"
+                const obj = await Model.query()
+                .where('requerimiento_id', id)
+                .where('nit', nit)
+                .firstOrFail();
+
+                obj.estado = 'EN PROCESO';
+                await obj.save();
+
+            return obj;
+        } 
+        catch (error)
+        { 
+            if (error.code === 'E_ROW_NOT_FOUND') { // Código de error para duplicados en Postgres
+                throw new CustomException(409,
+                    'tipo_identificacionData.js',
+                    'Recurso no encontrado',
+                    ['El recurso que intenta obtener no existe']
+                );
+            }
+
+            throw new CustomException(500,
+                'tipo_identificacionData.js',
                 'Error desconocido listar',
                 ['Ha ocurrido un error interno, por favor intente mas tarde', error]
             );

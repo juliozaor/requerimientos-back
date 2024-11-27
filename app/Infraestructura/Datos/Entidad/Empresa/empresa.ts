@@ -18,25 +18,10 @@ export default class Empresa extends BaseModel {
   declare razonsocial:string
 
   @column()
-  declare delegada:string
-
-  @column()
-  declare modalidad:string
-
-  @column()
-  declare departamento:string
-
-  @column()
-  declare municipo:string
-
-  @column()
   declare usuariocreacion_nombre:string
 
   @column()
   declare estado:string
-
-  @column()
-  declare estadoentrega:string
 
   @column()
   declare usuariocreacion_uuid: string

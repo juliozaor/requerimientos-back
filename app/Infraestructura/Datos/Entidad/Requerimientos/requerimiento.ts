@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm';
+import TblRequerimientoEmpresas from '../Empresa/empresa';
 
 export default class Requerimiento extends BaseModel {
 
@@ -52,4 +53,10 @@ export default class Requerimiento extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  // Relación HazMany
+  @hasMany(() => TblRequerimientoEmpresas, {
+    foreignKey: 'requerimiento_id', // Clave foránea en tbl_requerimientoempresas
+  })
+  public array_empresas: HasMany<typeof TblRequerimientoEmpresas>;
 }

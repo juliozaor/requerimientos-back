@@ -4,8 +4,10 @@ import { RequerimientoRepositorio } from '../../Infraestructura/Requerimientos/r
 import { RequerimientosService } from '../../Dominio/Requerimientos/requerimientoService';
 import CustomException from '../../Exceptions/CustomException';
 import listarValidator from './listarValidator';
+import listarporempresValidator from './listarporempresValidator';
 import { EmpresaService } from 'App/Dominio/Empresa/empresaService';
 import { EmpresaRepositorio } from 'App/Infraestructura/Empresa/empresaRepositorio';
+import { errorMonitor } from 'form-data';
 
 export default class RequerimientosController {
 
@@ -96,6 +98,40 @@ export default class RequerimientosController {
         }
     }
 
+    public async listarPorEmpresa({response, request}:HttpContextContract) {
+        try {
+            await request.validate(listarporempresValidator)
+
+            const obj_request:any = request.all();
+
+            const array_requerimiento = await this.service.listarPorEmpresa(obj_request);
+
+            return response.status(200).send(array_requerimiento);
+
+        } catch (error) {
+
+            if (error.messages && error.messages.errors) {
+                const messages = error.messages.errors.map((msg: { message: string }) => msg.message);
+                return response.status(400).send({
+                    msn: 'Campos invalidos', // Mensaje personalizado
+                    errors: messages
+                });
+            }
+
+            if (error instanceof CustomException) {
+                return response.status(error.status).send({
+                    msn: error.message.name, // Mensaje personalizado
+                    errors: error.message.errors // Detalles de la excepción personalizada
+                });
+            }
+
+            return response.status(500).send({
+                msn: 'Error interno', // Mensaje personalizado
+                errors: ['Ha ocurrido un error interno, por favor intente mas tarde'] 
+            });
+        }
+    }
+
     public async listarPorusuario({response, request}:HttpContextContract) {
         try {
             await request.validate(listarValidator)
@@ -116,14 +152,16 @@ export default class RequerimientosController {
                 const messages = error.messages.errors.map((msg: { message: string }) => msg.message);
                 return response.status(400).send({
                     msn: 'Campos invalidos', // Mensaje personalizado
-                    errors: messages
+                    errors: messages,
+                    error: error
                 });
             }
 
             if (error instanceof CustomException) {
                 return response.status(error.status).send({
                     msn: error.message.name, // Mensaje personalizado
-                    errors: error.message.errors // Detalles de la excepción personalizada
+                    errors: error.message.errors,
+                    error:error // Detalles de la excepción personalizada
                 });
             }
 
@@ -180,9 +218,9 @@ export default class RequerimientosController {
 
     public async verDetalle({response, params}:HttpContextContract) {
         try {
-            const {requerimiento_id} = params;
+            const {requerimiento_id, nit} = params;
 
-            const obj_requerimiento = await this.service.verDetalle(requerimiento_id);
+            const obj_requerimiento = await this.service.verDetalle(requerimiento_id, nit);
 
             return response.status(200).send(obj_requerimiento);
         } catch (error) {

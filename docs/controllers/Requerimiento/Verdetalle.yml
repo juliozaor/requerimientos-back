@@ -1,4 +1,4 @@
-api/v1/requerimiento/detallerequerimiento/{id}:
+api/v1/requerimiento/detallerequerimiento/{requerimiento_id}/{nit}:
   get:
     tags:
       - Requerimiento
@@ -6,12 +6,18 @@ api/v1/requerimiento/detallerequerimiento/{id}:
       - bearerAuth: []
     description: Obtener un Requerimiento por su ID y a su ves le cambia el estado a EN PROCESO al requeriemiento
     parameters:
-      - name: id
+      - name: requerimiento_id
         in: path
         description: ID del Requerimiento a obtener
         required: true
         schema:
           type: integer
+      - name: nit
+        in: path
+        description: nit de la empresa a quien realizaron el requerimiento
+        required: true
+        schema:
+          type: string
     produces:
       - application/json
     responses:
@@ -78,3 +84,40 @@ api/v1/requerimiento/detallerequerimiento/{id}:
                   type: string
                   format: date-time
                   description: Fecha y hora de la última actualización del requerimiento
+                array_empresas:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID de la relación entre requerimiento y empresa
+                      requerimiento_id:
+                        type: integer
+                        description: ID del requerimiento relacionado con la empresa
+                      nit:
+                        type: string
+                        description: NIT de la empresa a la que se le realiza el requerimiento
+                      razonsocial:
+                        type: string
+                        description: Nombre de la empresa a la que se le realiza el requerimiento
+                      correoelectronico:
+                        type: string
+                        description: Correo electrónico de la empresa
+                      estado:
+                        type: string
+                        description: Estado de la empresa (ACTIVO, ELIMINADO)
+                      usuariocreacion_uuid:
+                        type: string
+                        description: UUID del usuario que creó la relación
+                      usuariocreacion_nombre:
+                        type: string
+                        description: Nombre del usuario que creó la relación
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de creación de la relación
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de la última actualización de la relación

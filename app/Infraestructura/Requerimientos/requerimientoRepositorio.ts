@@ -122,6 +122,7 @@ export class RequerimientoRepositorio implements RequerimientoInterface
             query.where('estado', 'ACTIVO');
 
             query.select('*');
+            query.preload('array_empresas');
 
             const array_tipoidentifacion = await query.paginate(obj_filter.page, obj_filter.numero_items);
 
@@ -133,6 +134,43 @@ export class RequerimientoRepositorio implements RequerimientoInterface
                 'tipo_identificacionData.js',
                 'Error desconocido listar',
                 ['Ha ocurrido un error interno, por favor intente mas tarde', error]
+            );
+        }
+    }
+
+    async listarPorEmpresa(obj_filter: any)
+    {
+        try {
+            let query = Model.query();
+    
+            // Realizar el join entre tbl_requerimiento y requerimientoempresa
+            query.innerJoin('tbl_requerimientoempresas', 'tbl_requerimientos.id', 'tbl_requerimientoempresas.requerimiento_id');
+    
+            query.where('tbl_requerimientoempresas.nit', obj_filter.nit);
+    
+            // Filtrar por 'find' si está definido
+            if (obj_filter.find && obj_filter.find.trim().length > 0) {
+                query.where('tbl_requerimientos.nombre', 'LIKE', `%${obj_filter.find}%`);
+            }
+    
+            // Filtrar por estado
+            query.where('tbl_requerimientos.estado', 'ACTIVO');
+    
+            // Seleccionar columnas específicas (opcional)
+            query.select('tbl_requerimientos.*');
+    
+            query.preload('array_empresas');
+
+            // Paginación
+            const array_requerimientos = await query.paginate(obj_filter.page, obj_filter.numero_items);
+    
+            return array_requerimientos;
+        } catch (error) {
+            throw new CustomException(
+                500,
+                'requerimientoData.js',
+                'Error desconocido listarPorEmpresa',
+                ['Ha ocurrido un error interno, por favor intente más tarde', error]
             );
         }
     }
@@ -147,15 +185,13 @@ export class RequerimientoRepositorio implements RequerimientoInterface
                 query.where('nombre', 'LIKE', `%${obj_filter.find}%`);
             }
 
-            if (obj_filter.estadorespuesta && obj_filter.estadorespuesta.trim().length  > 0)
-            {
-                query.where('estadorespuesta', obj_filter.estadorespuesta);
-            }
-
-            query.where('usuariocreacion_uuid', obj_filter.usuariocreacion_uuid);
+            query.where('usuariocreacion_uuid', obj_filter.uuid);
             query.where('estado', 'ACTIVO');
 
             query.select('*');
+
+            // Incluir la relación con las empresas
+            query.preload('array_empresas');
 
             const array_tipoidentifacion = await query.paginate(obj_filter.page, obj_filter.numero_items);
 
@@ -165,7 +201,7 @@ export class RequerimientoRepositorio implements RequerimientoInterface
         { 
             throw new CustomException(500,
                 'tipo_identificacionData.js',
-                'Error desconocido listar',
+                'Error desconocido listar por usuario',
                 ['Ha ocurrido un error interno, por favor intente mas tarde', error]
             );
         }
@@ -174,7 +210,11 @@ export class RequerimientoRepositorio implements RequerimientoInterface
     async obtenerRecurso(id:number)
     {
         try {
-            const obj = await Model.findOrFail(id);
+            // Buscar el recurso con preload de la relación "empresas"
+                const obj = await Model.query()
+                .where('id', id)
+                .preload('array_empresas') // Cargar la relación definida en el modelo
+                .firstOrFail();
 
             return obj;
         } 
@@ -196,12 +236,15 @@ export class RequerimientoRepositorio implements RequerimientoInterface
         }
     }
 
-    async verDetalle(id:number)
+    async verDetalle(id:number, nit:string)
     {
         try {
-            const obj = await Model.findOrFail(id);
-                  obj.estadorespuesta = 'EN PROCESO';
-                  obj.save();
+            const obj = await Model.query()
+                .where('id', id)
+                .preload('array_empresas', (query) => {
+                    query.where('nit', nit); // Filtrar por el nit específico
+                })
+                .firstOrFail();
  
             return obj;
         } 

@@ -6,6 +6,8 @@ import { RepositorioUsuariosDB } from "App/Infraestructura/Implementacion/Lucid/
 import CustomException from 'App/Exceptions/CustomException';
 import Env from '@ioc:Adonis/Core/Env';
 import Mail from '@ioc:Adonis/Addons/Mail'
+import FormData from 'form-data';
+import axios from 'axios';
 export class RequerimientosService{
 
     private empresaService: EmpresaService
@@ -58,12 +60,7 @@ export class RequerimientosService{
             nit:element.nit,
             razonsocial:element.razonsocial,
             correoelectronico:element.correoelectronico,
-            modalidad:element.modalidad,
-            delegada:element.delegada,
-            departamento:element.departamento,
-            municipo:element.municipo,
-            estado:element.estado,
-            estadoentrega:element.estadoentrega,
+            estado:'INICIO',
             usuariocreacion_uuid:obj_requerimiento.usuariocreacion_uuid,
             usuariocreacion_nombre:obj_requerimiento.usuariocreacion_nombre,
           };
@@ -105,6 +102,11 @@ export class RequerimientosService{
       return this.repositorio.listar(obj_filter);
     }
 
+    async listarPorEmpresa(obj_filter: any)
+    {
+      return this.repositorio.listarPorEmpresa(obj_filter);
+    }
+
     async listarPorusuario(obj_filter: any)
     {
       return this.repositorio.listarPorusuario(obj_filter);
@@ -120,8 +122,47 @@ export class RequerimientosService{
       return this.repositorio.eliminarRecurso(id);
     }
 
-    async verDetalle(id: number)
+    async verDetalle(id:number, nit:string)
     {
-      return this.repositorio.verDetalle(id);
+      await this.empresaService.obtenerRecurso(id, nit);
+      var obj = this.repositorio.verDetalle(id, nit);
+
+      return obj;
+    }
+
+    public async subirArchivos (file:any, requerimiento_id:number)
+    {
+   
+      const host = Env.get('URL_SERVICIO_ARCHIVOS')
+      const rutaRaiz = 'anexos';
+      const ruta = 'archivos';
+      const endpoint = `/api/v1/${ruta}`
+
+      const fs = require('fs');
+      const path = require('path');
+
+      const archivoTemporal = path.resolve(file.tmpPath);
+
+      const formData = new FormData();
+
+      formData.append('archivo', fs.createReadStream(archivoTemporal), {
+        filename: file.clientName,
+        contentType: file.headers['content-type'],
+      });
+
+      const headers = {
+        'Authorization': `Bearer d4a32a3b-def6-4cc2-8f77-904a67360b53`,
+        ...formData.getHeaders(),
+      };
+
+      try {
+        const respuesta = await axios.post(`${host}${endpoint}`, formData, { headers });
+        return respuesta.data;
+      } catch (error) {
+        console.log(error);
+
+        console.error('Error en la solicitud:', error.message);
+      }
+  
     }
 }

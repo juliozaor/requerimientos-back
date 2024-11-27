@@ -48,24 +48,9 @@ api/v1/requerimiento/listarempresas:
                       correoelectronico:
                         type: string
                         description: Correo electrónico de la empresa
-                      delegada:
-                        type: string
-                        description: Delegada de la empresa
                       estado:
                         type: string
                         description: Estado de la empresa (ACTIVO, ELIMINADO)
-                      estadoentrega:
-                        type: string
-                        description: Estado de entrega de la empresa (PENDIENTE, ENTREGADO, etc.)
-                      modalidad:
-                        type: string
-                        description: Modalidad de la delegada de la empresa
-                      departamento:
-                        type: string
-                        description: Departamento donde se ubica la empresa
-                      municipio:
-                        type: string
-                        description: Municipio donde se ubica la empresa
                       usuariocreacion_uuid:
                         type: string
                         description: UUID del usuario que creó la relación

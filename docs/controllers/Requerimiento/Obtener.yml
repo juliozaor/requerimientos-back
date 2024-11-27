@@ -78,3 +78,40 @@ api/v1/requerimiento/obtenerrequerimiento/{id}:
                   type: string
                   format: date-time
                   description: Fecha y hora de la última actualización del requerimiento
+                array_empresas:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID de la relación entre requerimiento y empresa
+                      requerimiento_id:
+                        type: integer
+                        description: ID del requerimiento relacionado con la empresa
+                      nit:
+                        type: string
+                        description: NIT de la empresa a la que se le realiza el requerimiento
+                      razonsocial:
+                        type: string
+                        description: Nombre de la empresa a la que se le realiza el requerimiento
+                      correoelectronico:
+                        type: string
+                        description: Correo electrónico de la empresa
+                      estado:
+                        type: string
+                        description: Estado de la empresa (ACTIVO, ELIMINADO)
+                      usuariocreacion_uuid:
+                        type: string
+                        description: UUID del usuario que creó la relación
+                      usuariocreacion_nombre:
+                        type: string
+                        description: Nombre del usuario que creó la relación
+                      created_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de creación de la relación
+                      updated_at:
+                        type: string
+                        format: date-time
+                        description: Fecha y hora de la última actualización de la relación

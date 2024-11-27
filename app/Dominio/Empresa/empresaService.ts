@@ -33,35 +33,23 @@ export class EmpresaService{
                 {
                     "nit":"nit 1",
                     "razonsocial":"razonsocial 1",
-                    "modalidad":"modalidad 1",
-                    "delegada":"delegada 1",
-                    "departamento":"departamento 1",
                     "correoelectrinico": "jorgemdiazp@gmail.com",
-                    "municipo":"municipo 1",
-                    "estado":true,
-                    "estadoentrega": true
+                    "modulo":"modulo",
+                    "estado":true
                 },
                 {
                   "nit":"nit 2",
                   "razonsocial":"razonsocial 2",
-                  "modalidad":"modalidad 2",
-                  "delegada":"delegada 2",
-                  "departamento":"departamento 2",
+                  "modulo":"modulo",
                   "correoelectrinico": "jorgemdiazp@gmail.com",
-                  "municipo":"municipo 2",
-                  "estado":true,
-                  "estadoentrega": true
+                  "estado":true
                 },
                 {
                   "nit":"nit 3",
                   "razonsocial":"razonsocial 3",
-                  "modalidad":"modalidad 3",
-                  "delegada":"delegada 3",
-                  "departamento":"departamento 3",
+                  "modulo":"modulo",
                   "correoelectrinico": "jorgemdiazp@gmail.com",
-                  "municipo":"municipo 3",
                   "estado":true,
-                  "estadoentrega": true
               }
               ]
             }
@@ -75,6 +63,11 @@ export class EmpresaService{
       async eliminarPorrequerimiento(requerimiento_id:number)
       {
         return this.repositorio.eliminarPorrequerimiento(requerimiento_id);
+      }
+
+      async obtenerRecurso(id: number, nit:string)
+      {
+        return this.repositorio.obtenerRecurso(id, nit);
       }
 
       public async consultarEmpresas(nit:string, razonsocial:string)

@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { EmpresaRepositorio } from '../../Infraestructura/Empresa/empresaRepositorio'
-import { EmpresaService } from '../../Dominio/Empresa/Empresaervice';
+import { EmpresaService } from '../../Dominio/Empresa/empresaService';
 import CustomException from '../../Exceptions/CustomException';
 import listarValidator from './listarValidator';
 
